@@ -1,0 +1,40 @@
+`timescale 1ns / 1ps
+
+module sf(
+    input S,
+    input F,
+    input clk,
+    output reg Q
+    );
+    
+    initial begin
+        Q = 0;
+    end
+	
+	always@(posedge clk)
+	begin
+		if(!S) Q <= F;
+		else Q <= Q^F;
+	end
+	 
+endmodule
+
+
+module ic1500(
+    input B, 
+    input A, 
+    input X, 
+	 input clk,
+	 output D0,
+	 output D1,
+	 output Q,
+    output Z
+    );
+	 
+	assign D1=(!X)&(A^B);
+	assign D2=(A&!B)|X;
+	sf sf(D1,D2,clk,Q);
+	assign Z= Q&X;
+			
+	
+endmodule
